@@ -129,3 +129,5 @@ AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend', # This is the default that allows us to log in via username
     'moderation_app.views.SettingsBackend' # oauth login
 ]
+
+API_URL = "https://local.wsquarepa.dev/api/"

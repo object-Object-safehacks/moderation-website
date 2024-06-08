@@ -12,6 +12,8 @@ import requests
 base_url = settings.BASE_URL
 endpoint_url = base_url + "/oauth2"
 
+api_url = settings.API_URL
+
 client = discordoauth2.Client(1249086752497598534, secret="wCaVKNOQCzcmrX-b5mW_2YI5rJMBP75r", redirect=endpoint_url)
 
 def index(request):
@@ -52,19 +54,6 @@ class SettingsBackend(BaseBackend):
         print(guilds)
         id = identify['id']
 
-        guild_list = []
-
-        for guild in guilds:
-            guild_id = guild['id']
-            guild_name = guild['name']
-            try:
-                guild_obj = Guild.objects.get(id=guild_id)
-            except Guild.DoesNotExist:
-                print(f"guild {guild_name} does not exist, creating one")
-                guild_obj = Guild(id=guild_id, name=guild_name)
-                guild_obj.save()
-            guild_list.append(guild_obj)
-
         try:
             user = User.objects.get(id=id)
         except User.DoesNotExist:
@@ -72,6 +61,40 @@ class SettingsBackend(BaseBackend):
             print("user does not exist, creating one")
             user = User(id=id, username=identify['username'])
             user.save()
+
+        guild_list = []
+
+        for guild in guilds:
+            guild_id = guild['id']
+            guild_name = guild['name']
+
+            # check if user is admin in guild
+            url = api_url + "user"
+            jsonObj = {
+                'id': str(user.id),
+                'guild': str(guild_id)
+            }
+
+            print(f"what im sending to server {jsonObj}")
+            
+            r = requests.post(url, json = jsonObj)
+
+            print(f"json {r.json()}")
+
+            json_return = r.json()
+            try:
+                hasPermission = json_return['hasPermission']
+            except:
+                hasPermission = False
+
+            if hasPermission:
+                try:
+                    guild_obj = Guild.objects.get(id=guild_id)
+                except Guild.DoesNotExist:
+                    print(f"guild {guild_name} does not exist, creating one")
+                    guild_obj = Guild(id=guild_id, name=guild_name)
+                    guild_obj.save()
+                guild_list.append(guild_id)
         
         # update guilds for user
         try:
@@ -79,10 +102,12 @@ class SettingsBackend(BaseBackend):
         except UserGuild.DoesNotExist:
             print("userguild does not exist, creating one")
             user_guild = UserGuild(user=user)
+            user_guild.save()
 
         print(f"guild list {guild_list}")
 
-        for guild in guild_list:
+        for guild_list_id in guild_list:
+            guild = Guild.objects.get(id=guild_list_id)
             print(f"adding guild {guild}")
             user_guild.guilds.add(guild)
         
