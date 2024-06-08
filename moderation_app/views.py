@@ -5,7 +5,8 @@ from django.conf import settings
 from django.contrib.auth.backends import BaseBackend
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
-from .models import Guild
+from .models import Guild, UserGuild
+import requests
 
 
 base_url = settings.BASE_URL
@@ -62,7 +63,7 @@ class SettingsBackend(BaseBackend):
                 print(f"guild {guild_name} does not exist, creating one")
                 guild_obj = Guild(id=guild_id, name=guild_name)
                 guild_obj.save()
-                guild_list.append(guild_obj)
+            guild_list.append(guild_obj)
 
         try:
             user = User.objects.get(id=id)
@@ -74,7 +75,19 @@ class SettingsBackend(BaseBackend):
         
         # update guilds for user
         try:
-            ...    
+            user_guild = UserGuild.objects.get(user=user)
+        except UserGuild.DoesNotExist:
+            print("userguild does not exist, creating one")
+            user_guild = UserGuild(user=user)
+
+        print(f"guild list {guild_list}")
+
+        for guild in guild_list:
+            print(f"adding guild {guild}")
+            user_guild.guilds.add(guild)
+        
+        user_guild.save()
+
         
         return user
 
