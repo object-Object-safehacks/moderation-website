@@ -63,7 +63,8 @@ def messages(request, guild_id):
             jsonObj = {
                 'guild': str(guild_id),
                 'user': str(userId),
-                'time': 300000
+                'time': 300000,
+                'message': str(message_id)
             }
 
             url = api_url + "actions/" + action
