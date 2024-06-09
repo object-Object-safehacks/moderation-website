@@ -179,7 +179,8 @@ def report(request):
         turnstileObj.save()
 
         returnJson = {
-            "url": f"{base_url}/turnstile/{turnstileObj.id}"
+            "url": f"{base_url}/turnstile/{turnstileObj.id}",
+            "id": turnstileObj.id,
         }
 
         messageObj.turnstile = turnstileObj
@@ -197,3 +198,11 @@ def report(request):
         return JsonResponse(returnJson)
     else:
         return HttpResponse("GET is cringe, use POST")
+
+@csrf_exempt
+def getTurnstileStatus(request, turnstile_id):
+    turnstile_obj = Turnstile.objects.get(id=turnstile_id)
+
+    return JsonResponse(
+        {"completed": turnstile_obj.isCompleted}
+    )
