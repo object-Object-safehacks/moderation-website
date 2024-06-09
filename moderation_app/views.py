@@ -31,7 +31,18 @@ def manage(request):
     if not user.is_authenticated:
         return redirect(client.generate_uri(scope=["identify",  "guilds"]))
 
-    return HttpResponse(user.username)
+    userGuildObj = UserGuild.objects.get(user=user)
+
+    data = {
+        "guilds": []
+    }
+
+    for guild in userGuildObj.guilds.all():
+        data['guilds'].append(guild.name)
+    
+    print(data)
+    
+    return render(request, 'moderation_app/manage.html', data)
 
 def oauth2(request):
     oauth_code = request.GET['code']
