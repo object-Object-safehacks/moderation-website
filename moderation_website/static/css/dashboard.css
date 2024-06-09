@@ -186,3 +186,15 @@ html,body{overflow-y: scroll; margin-left: 5em; margin-right: 5em}
 form {
     margin-right: 1em;
 }
+
+a:visited{
+    color: white
+}
+
+a {
+    color: white
+}
+
+a:hover {
+    color:white
+}
