@@ -1,7 +1,8 @@
+html,body{overflow-y: scroll; margin-left: 5em; margin-right: 5em}
 .dashboard {
     max-width: 65rem;
     background-color: rgb(38, 38, 38);
-    margin-left: 5rem;
+    margin-left: 10rem;
     margin-right: 10rem;
     margin-top: 5rem;
     padding: 1rem;
@@ -136,6 +137,8 @@
     gap: 0.5rem;
     cursor: pointer;
     transition: all 0.1s ease-in-out;
+    margin-bottom: 5em;
+
   }
   
   .message:hover {
@@ -180,4 +183,6 @@
     border-bottom-left-radius: 0.5rem;
   }
 
-  
+form {
+    margin-right: 1em;
+}
