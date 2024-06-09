@@ -16,6 +16,10 @@ from django.http import JsonResponse
 class turnstileForm(forms.Form):
     turnstile = TurnstileField(theme='dark', size='compact')
 
+class actionForm(forms.Form):
+    message_id = forms.IntegerField()
+    action = forms.CharField(max_length=999)
+
 base_url = settings.BASE_URL
 endpoint_url = base_url + "/oauth2"
 
@@ -48,7 +52,22 @@ def messages(request, guild_id):
     guildobj = Guild.objects.get(id=guild_id)
 
     if request.method == "POST":
-        return
+        form = actionForm(request.POST)
+        if form.is_valid():
+            message_id = form.cleaned_data["message_id"]
+            action = form.cleaned_data["action"]
+            message_obj = Message.objects.get(id=message_id)
+            userId = message_obj.userId
+            jsonObj = {
+                'guild': str(guild_id),
+                'user': str(userId)
+            }
+
+            url = api_url + "actions/" + action
+
+            r = requests.post(url, json = jsonObj)
+
+            print(f"sending post data: {jsonObj} to {url}")
     
     messagesObjs = Message.objects.all().filter(guild=guildobj)
 
