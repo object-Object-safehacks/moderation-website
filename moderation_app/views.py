@@ -44,6 +44,23 @@ def manage(request):
     
     return render(request, 'moderation_app/manage.html', data)
 
+def messages(request, guild_id):
+    guildobj = Guild.objects.get(id=guild_id)
+
+    if request.method == "POST":
+        return
+    
+    messagesObjs = Message.objects.all().filter(guild=guildobj)
+
+    print(f"messagesObjs {messagesObjs}")
+
+    data = {
+        "messages": messagesObjs,
+        "guild_name": guildobj.name
+    }
+
+    return render(request, 'moderation_app/messages.html', data)
+
 def oauth2(request):
     oauth_code = request.GET['code']
     print(f"request {request.GET['code']}")

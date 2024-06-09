@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Discard Turnstile Test</title>
+    </head>
+    <body>
+        <p>Solve the following turnstile to verify your message</p>
+        {{ guild_name }}
+        {% for message in messages %}
+            <h1>Message</h1>
+            {{ message.username }}
+            {{ message.content }}
+            {% for attachment in message.attachments.all %}
+                {{ attachment.url }}
+            {% endfor %}
+            {{ message.reason }}
+        {% endfor %}
+    </body>
+</html>
