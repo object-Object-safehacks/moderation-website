@@ -57,6 +57,7 @@ def messages(request, guild_id):
             message_id = form.cleaned_data["message_id"]
             action = form.cleaned_data["action"]
             message_obj = Message.objects.get(id=message_id)
+            channel_id = message_obj.channel
             if action == "unflag":
                 Message.objects.filter(id=message_id).delete()
             userId = message_obj.userId
@@ -64,7 +65,8 @@ def messages(request, guild_id):
                 'guild': str(guild_id),
                 'user': str(userId),
                 'time': 300000,
-                'message': str(message_obj.messageId)
+                'message': str(message_obj.messageId),
+                'channel': channel_id
             }
 
             url = api_url + "actions/" + action
