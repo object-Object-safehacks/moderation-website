@@ -8,3 +8,18 @@ class Guild(models.Model):
 class UserGuild(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     guilds = models.ManyToManyField("Guild", blank=True)
+
+class Message(models.Model):
+    username = models.CharField(max_length=999)
+    userId = models.BigIntegerField()
+    guild = models.ManyToManyField("Guild", blank=True)
+    channel = models.BigIntegerField()
+    channelName = models.CharField(max_length=999)
+    messageId = models.BigIntegerField()
+    content = models.CharField(max_length=9999)
+    attachments = models.ManyToManyField("Attachment", blank=True)
+    reason = models.CharField(max_length=999)
+    time = models.DateTimeField()
+
+class Attachment(models.Model):
+    url = models.CharField(max_length=9999)

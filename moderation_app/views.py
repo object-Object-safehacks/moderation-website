@@ -5,8 +5,10 @@ from django.conf import settings
 from django.contrib.auth.backends import BaseBackend
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
-from .models import Guild, UserGuild
+from .models import Guild, UserGuild, Message, Attachment
+from django.views.decorators.csrf import csrf_exempt
 import requests
+import json
 
 
 base_url = settings.BASE_URL
@@ -125,3 +127,29 @@ class SettingsBackend(BaseBackend):
 def log_out(request):
     logout(request)
     return redirect("/")
+
+# API
+
+@csrf_exempt
+def report(request):
+    if request.method == "POST":
+        body = json.loads(request.body)
+        user = body["user"]
+        channel = body["channel"]
+        message = body["message"]
+        messageObj = Message(
+            username = user["name"],
+            userId = user["id"],
+            channel = channel["id"],
+            channelName = channel["name"],
+            messageId = message["id"],
+            content = message["content"],
+            time = body["time"],
+            reason = body["reason"]
+        )
+
+        messageObj.save()
+        messageObj.guild.add(Guild.objects.get(id=int(body["guild"])))
+        messageObj.save()
+    else:
+        return HttpResponse("GET is cringe, use POST")
