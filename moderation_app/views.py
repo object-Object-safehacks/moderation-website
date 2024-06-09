@@ -133,6 +133,15 @@ def log_out(request):
     logout(request)
     return redirect("/")
 
+def turnstile(request, turnstile_id):
+    print(turnstile_id)
+
+    turnstile_obj = Turnstile.objects.get(id=turnstile_id)
+
+    form = turnstileForm()
+
+    return render(request, "moderation_app/turnstile.html", {"form": form})
+
 # API
 
 @csrf_exempt
