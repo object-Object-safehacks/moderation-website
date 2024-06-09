@@ -150,6 +150,11 @@ def report(request):
 
         messageObj.save()
         messageObj.guild.add(Guild.objects.get(id=int(body["guild"])))
+
+        for attachment in message["attachments"]:
+            attachmentObj = Attachment(url=attachment)
+            attachmentObj.save()
+            messageObj.attachments.add(attachmentObj)
         messageObj.save()
     else:
         return HttpResponse("GET is cringe, use POST")
