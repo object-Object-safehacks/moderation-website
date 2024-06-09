@@ -138,6 +138,15 @@ def turnstile(request, turnstile_id):
 
     turnstile_obj = Turnstile.objects.get(id=turnstile_id)
 
+    if request.method == "POST":
+        form = turnstileForm(request.POST)
+
+        if form.is_valid():
+            turnstile_obj.isCompleted = True
+            return HttpResponse("Verification Complete!")
+        else:
+            return HttpResponse("Could not verify, please try again")
+
     form = turnstileForm()
 
     return render(request, "moderation_app/turnstile.html", {"form": form})
