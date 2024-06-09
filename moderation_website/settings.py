@@ -22,6 +22,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-m3u0e-!i^iyf6p_u&y(_(0+=8gk*+31avyl*7j7u3cj(2ev=fz'
 
+# turnstile stuff
+TURNSTILE_SITEKEY = '0x4AAAAAAAcNa4l1Y2wpJ2uI'
+TURNSTILE_SECRET = '0x4AAAAAAAcNa9MDZL5S0bf13enUQR9rOGU'
+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
@@ -39,6 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'moderation_app',
+    'turnstile',
 ]
 
 MIDDLEWARE = [

@@ -5,11 +5,16 @@ from django.conf import settings
 from django.contrib.auth.backends import BaseBackend
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
-from .models import Guild, UserGuild, Message, Attachment
+from .models import Guild, UserGuild, Message, Attachment, Turnstile
 from django.views.decorators.csrf import csrf_exempt
 import requests
 import json
+from turnstile.fields import TurnstileField
+from django import forms
+from django.http import JsonResponse
 
+class turnstileForm(forms.Form):
+    turnstile = TurnstileField(theme='dark', size='compact')
 
 base_url = settings.BASE_URL
 endpoint_url = base_url + "/oauth2"
@@ -148,6 +153,15 @@ def report(request):
             reason = body["reason"]
         )
 
+        turnstileObj = Turnstile()
+        turnstileObj.save()
+
+        returnJson = {
+            "url": f"{base_url}/turnstile/{turnstileObj.id}"
+        }
+
+        messageObj.turnstile = turnstileObj
+
         messageObj.save()
         messageObj.guild.add(Guild.objects.get(id=int(body["guild"])))
 
@@ -155,6 +169,9 @@ def report(request):
             attachmentObj = Attachment(url=attachment)
             attachmentObj.save()
             messageObj.attachments.add(attachmentObj)
+
         messageObj.save()
+
+        return JsonResponse(returnJson)
     else:
         return HttpResponse("GET is cringe, use POST")
