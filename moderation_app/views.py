@@ -143,6 +143,7 @@ def turnstile(request, turnstile_id):
 
         if form.is_valid():
             turnstile_obj.isCompleted = True
+            turnstile_obj.save()
             return HttpResponse("Verification Complete!")
         else:
             return HttpResponse("Could not verify, please try again")
