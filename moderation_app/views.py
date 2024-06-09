@@ -24,7 +24,7 @@ api_url = settings.API_URL
 client = discordoauth2.Client(1249086752497598534, secret="wCaVKNOQCzcmrX-b5mW_2YI5rJMBP75r", redirect=endpoint_url)
 
 def index(request):
-    return HttpResponse("Hello, world. You're at the polls index.")
+    return render(request, "moderation_app/index.html")
 
 def manage(request):
     user = request.user
@@ -38,7 +38,7 @@ def manage(request):
     }
 
     for guild in userGuildObj.guilds.all():
-        data['guilds'].append(guild.name)
+        data['guilds'].append({"name": guild.name, "id": guild.id})
     
     print(data)
     

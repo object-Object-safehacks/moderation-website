@@ -1,0 +1,135 @@
+body {
+    margin: 0;
+    font-family: "Prompt", sans-serif;
+    line-height: 1.5;
+    font-weight: 400;
+  
+    color-scheme: light dark;
+    background-color: #000;
+    color: #fff;
+  
+    --primary-color: #fff;
+    --accent-color: #00bfff;
+    --secondary-accent-color: #00bfffe6;
+    --border-color: rgba(255, 255, 255, 0.065);
+  
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow: hidden;
+  }
+  
+  button {
+    border: none;
+    cursor: pointer;
+    font-family: "Prompt", sans-serif;
+  }
+  
+  a {
+    text-decoration: none;
+  }
+  
+  .lines {
+    position: fixed;
+    width: 100vw;
+    transform: rotate(-45deg);
+  }
+  
+  .lines-1 {
+    top: 300px;
+    left: -550px;
+    height: 50px;
+    border: 10px solid var(--border-color);
+    border-top: 45px solid var(--border-color);
+  }
+  
+  .lines-2 {
+    top: 100px;
+    left: -600px;
+    height: 50px;
+    border-top: 35px solid var(--border-color);
+    border-bottom: 20px solid var(--border-color);
+  }
+  
+  @media screen and (max-width: 1080px) {
+    .lines {
+      display: none;
+    }
+  }
+  
+  @media screen and (max-width: 1080px) {
+    .header h1 {
+      width: 90%;
+    }
+  }
+  
+  @media screen and (max-width: 1080px) {
+    .header p {
+      width: 90%;
+      font-size: 2rem;
+    }
+  }
+  
+  .header {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transform: translateY(-25px);
+  }
+  
+  .product-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0;
+    font-size: 1.25rem;
+  }
+  
+  .logo {
+    height: 40px;
+    width: 40px;
+    border-radius: 100px;
+  }
+  
+  .title {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    margin-top: 20px;
+    margin-bottom: 28px;
+    font-size: 3.75rem;
+    line-height: 1;
+    width: 40rem;
+    text-align: center;
+  }
+  
+  .subtitle {
+    margin: 0;
+    opacity: 0.7;
+    font-size: 1.125rem;
+    width: 45ch;
+    word-break: break-word;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .span-container {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .cta {
+    padding: 0.9rem 1.5rem;
+    font-size: 1.125rem;
+    border-radius: 0.4rem;
+    background-color: var(--accent-color);
+    transition: all 0.125s ease-in-out;
+    color: var(--primary-color);
+  }
+  
+  .cta:hover {
+    background-color: var(--secondary-accent-color);
+  }
