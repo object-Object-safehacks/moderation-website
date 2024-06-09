@@ -64,7 +64,7 @@ def messages(request, guild_id):
                 'guild': str(guild_id),
                 'user': str(userId),
                 'time': 300000,
-                'message': str(message_id)
+                'message': str(message_obj.messageId)
             }
 
             url = api_url + "actions/" + action
